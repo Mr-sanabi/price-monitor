@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environments
+.venv/
+venv/
+
+# Local config
+config.json
+
+# Logs
+log.txt
+*.log
+
+# Generated data
+data/*.json
+data/*.csv
+!data/.gitkeep
+
+# Archive / local junk
+archive/

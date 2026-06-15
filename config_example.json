@@ -1,0 +1,11 @@
+  {
+    "price": {
+        "product_url": "https://example.com/product-page",
+        "target_price": 100,
+        "currency": "GBP"
+    },
+    "scraping": {
+        "delay": 1,
+        "price_selector": ".price_color"
+    }
+  }
