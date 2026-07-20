@@ -2,16 +2,22 @@ import json
 import csv
 import logging
 import os
+from pathlib import Path
 
 def load_json(filename):
     with open(filename, "r", encoding="utf-8") as file:
         return json.load(file)
     
 def save_json(filename, data):
-    with open(filename, "w", encoding="utf-8") as file:
-        return json.dump(data, file, indent=4, ensure_ascii=False)
+    path = Path(filename)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    with temporary.open("w", encoding="utf-8") as file:
+        json.dump(data, file, indent=4, ensure_ascii=False)
+    temporary.replace(path)
     
 def save_csv(filename, data):
+    Path(filename).parent.mkdir(parents=True, exist_ok=True)
     file_exists = os.path.exists(filename)
 
     with open(filename, "a", newline="", encoding="utf-8") as file:
@@ -36,4 +42,7 @@ def load_previous_price(filename):
         return None
     except KeyError:
         logging.error("Previous price data does not contain current_price")
+        return None
+    except TypeError:
+        logging.error("Previous price data has an invalid structure")
         return None

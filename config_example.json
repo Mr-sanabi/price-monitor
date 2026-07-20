@@ -7,5 +7,10 @@
     "scraping": {
         "delay": 1,
         "price_selector": ".price_color"
+    },
+    "output": {
+        "current_price": "data/current_price.json",
+        "history": "data/price_history.csv",
+        "log": "logs/price_monitor.log"
     }
-  }
+}
