@@ -20,3 +20,9 @@ data/*.csv
 
 # Archive / local junk
 archive/
+.pytest_cache/
+.coverage
+htmlcov/
+.env
+.DS_Store
+Thumbs.db

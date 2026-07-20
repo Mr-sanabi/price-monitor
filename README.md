@@ -1,41 +1,39 @@
 # Price Monitor
 
-A simple Python tool that fetches a product page, extracts the product price, compares it with a target price, and saves price history.
+A configuration-driven Python monitor that extracts a product price, compares it with previous state, and records price history.
 
-## Features
+## Pipeline
 
-- Fetches a product page using requests.
-- Extracts page title and raw price using BeautifulSoup.
-- Cleans raw price strings into numbers.
-- Compares current price with target price.
-- Compares current price with previous saved price.
-- Saves current state to JSON.
-- Appends price history to CSV.
-- Uses config files for product URL, target price, currency and price selector.
+1. Fetch a configured product page with timeout and HTTP validation.
+2. Extract the title and price with a CSS selector.
+3. Normalize common currency and thousands separators.
+4. Compare the current, previous, and target prices.
+5. Atomically save current state and append a CSV history row.
 
-## Tech Stack
+## Setup
 
-- Python
-- requests
-- BeautifulSoup
-- JSON
-- CSV
-- logging
+```bash
+python -m pip install -r requirements.txt
+cp config_example.json config.json
+python -m src.main --config config.json
+```
 
-## Current Status
+`config.json` is intentionally ignored because it contains local selectors and settings.
 
-MVP in progress.  
-Works with a simple static product page from Books to Scrape.
+## Tests
 
-## How to Run
+```bash
+python -m pip install -r requirements-dev.txt
+python -m pytest -q
+```
 
-1. Install dependencies:
-   pip install -r requirements.txt
+## Reliability
 
-2. Create config.json based on config_example.json.
+- failed fetches do not overwrite the last known price;
+- state writes use a temporary file followed by replacement;
+- output and log directories are created automatically;
+- timestamps are stored in UTC.
 
-3. Run:
-   python src/main.py
+## Stack
 
-Current Status:
-MVP works with a static product page from Books to Scrape.
+Python 3.11+, Requests, Beautiful Soup, JSON, CSV, pytest.
